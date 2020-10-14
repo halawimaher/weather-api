@@ -4,6 +4,8 @@
   transition: background-color 1s ease-in;
   background-color: #9CCEF4;
   font-family: "Raleway", sans-serif;
+  margin-left: 200px;
+  margin-right: 200px;
 }
 
 .app__header,
@@ -25,12 +27,14 @@ input{
   border: 0px solid;
   height: 20px;
   width: 160px;
+  margin-right: 10px;
 }
 input:focus {
   outline:none;
   border-bottom: 1px solid black;
   font-family: "Raleway", sans-serif;
 }
+
 input:focus::placeholder {
   color: transparent;
 }
@@ -43,7 +47,12 @@ button{
   width: 150px;
 }
 /* Current weather */
-.main-component{
+.weather-now{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+li{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,12 +72,12 @@ ul, .images{
   justify-content: space-between;
 }
 .images{
-  padding-left: 30px;
+  width: 500px;
 }
 ol{
   list-style: none;
   display: flex;
-  width: 300px;
+  width: 500px;
   justify-content: space-between;
 }
 
@@ -92,3 +101,4 @@ h4{
     justify-content: space-around;
   }
 }
+
