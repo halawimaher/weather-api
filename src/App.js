@@ -1,34 +1,64 @@
 import React, { Component } from "react";
 import Search from "./components/Search";
-import fake from "./fakeWeatherData.json";
+import Container from "./components/Container";
 import "./App.css";
-import WeatherItem from "./components/WeatherItem";
-import Weather24 from "./components/Weather24";
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      name: "London"
-    };
+      value: "",
+      buttonClicked: false,
+      error: false,
+      weathers: []
+    }
+    this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInputChange = value => {
-    this.setState({ name: value });
-  };
-  
-  render() {
-    let fakes = fake.list.slice(20,26).map(obj => {
-    return obj
+
+  handleInput(value) {
+    this.setState({
+      buttonClicked: false,
+      value
+    });
+
+  fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${value}&cnt=8&units=metric&appid=69d4aa804f2d9e2707e451f59527fed8`)
+    .then(response => {
+      if (response.status >= 200 && response.status <=299){
+        return response.json();
+      }
+      else {
+        throw Error(response.statusText);
+      }
     })
 
+    .then(data => {
+      this.setState({
+        buttonClicked: true,
+        error: false,
+        weathers: data
+      })
+    })
+
+    .catch(error => {
+      this.setState({
+        buttonClicked: true,
+        error: true
+      })
+    })
+  }
+  render() {
+    console.log(this.state);
     return (
       <div className="app">
-        <Search />
-        <WeatherItem fakes={fakes} />
-        <Weather24 fakes={fakes}/>
+        <Search handleInput={this.handleInput} />
+        <Container 
+          buttonClicked={this.state.buttonClicked}
+          weathers={this.state.weathers.list}
+          error={this.state.error}
+        />
       </div>
-      );
+      )
   }
-}  
-export default App;
+} 
+export default App

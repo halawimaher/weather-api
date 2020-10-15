@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
-
 import clear from "../img/weather-icons/clear.svg";
 import cloudy from "../img/weather-icons/cloudy.svg";
 import drizzle from "../img/weather-icons/drizzle.svg";
@@ -13,20 +11,58 @@ import storm from "../img/weather-icons/storm.svg";
 import unknown from "../img/weather-icons/unknown.svg";
 
 
-export default class WeatherItem extends Component {
-  state = {
-    images: [clear, cloudy, drizzle, fog, mostlycloudy, partlycloudy, rain, snow, storm, unknown]
-  };
-
-  
+class WeatherItem extends Component {
+  constructor(props){
+    super(props);
+    this.setState = {}
+  }
 
   render() {
+    const Hours = this.props.weather.map(weather =>{
+      const id = weather.weather[0].id
+      let image;
+      if (id < 300) {
+        image = storm
+      }
+      else if (id < 500){
+          image = drizzle
+      }
+      else if (id < 600){
+          image = rain
+      }
+      else if (id < 700){
+          image = snow
+      }
+      else if (id < 800){
+          image = fog
+      }
+      else if (id === 800){
+          image = clear
+      }
+      else if (id === 801){
+          image = partlycloudy
+      }
+      else if (id < 806){
+          image = mostlycloudy
+      }
+      else{
+          image = unknown
+      }
+      return (
+        <div className="weather-now">
+          <ul>
+          <li>{weather.dt_txt.substr(11, 5)}</li>
+          <li><img src={image} alt="qwe" width="50px" height="50px"/></li>
+          <li>{Math.floor(weather.main.temp)}&deg;C</li>
+          </ul>
+        </div>
+      )
+    })
     return (
-      <div className="weather-now">
-        <img src="./clear.svg" alt="cloudy" width="150px" height="150px"></img>
-        <h5>clear skies</h5>
-        <h4>Temperature 10&#8451; to 11&#8451;</h4>
-      </div>);
+      <div>
+        {Hours}
+      </div>
+    );
   }
 }
-
+export default WeatherItem;
